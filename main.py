@@ -1,7 +1,6 @@
 
 
 dict_telefones = {}
-RUN_PROGRAMM = True
 
 
 def input_error(func):
@@ -33,7 +32,7 @@ def answer_add(name_telephone):
     """Додаємо телефон до словника"""
     lst_name_telefon = name_telephone.strip().split()
     name = lst_name_telefon[0]
-    if dict_telefones.get(name):
+    if name in dict_telefones:
         raise ValueError("Ім'я вже є у списку. Введіть іньше")
     telephone = lst_name_telefon[1]
     dict_telefones[name] = telephone
@@ -62,8 +61,6 @@ def answer_showall():
 
 @input_error
 def answer_exit():
-    global RUN_PROGRAMM
-    RUN_PROGRAMM = False
     return 'Good bye!'
 
 @input_error
@@ -91,7 +88,7 @@ def get_answer_function(answer):
 def run_command(user_command):
     command = user_command
     params = ''
-    for key in DICT_COMMANDS.keys():
+    for key in DICT_COMMANDS:
         if user_command.lower().startswith(key):
             command = key
             params = user_command[len(command):]
@@ -103,10 +100,12 @@ def run_command(user_command):
 
 
 def main():
-    while RUN_PROGRAMM:
+    while True:
         user_command = input('Введіть команду для бота: ')
         answer = run_command(user_command.strip())
         print(answer)
+        if answer == 'Good bye!':
+            break
 
 if __name__ == "__main__":
     main()
