@@ -5,6 +5,7 @@ RUN_PROGRAMM = True
 
 
 def input_error(func):
+    """Обробляемо помилки, якіх міг припуститись користувач"""
     def wrapper(*args, **kwargs):
         try:
             return func(*args, **kwargs)
@@ -24,10 +25,12 @@ def input_error(func):
 
 @input_error
 def answer_hello():
+    """Привітаємо користувача"""
     return 'How can I help you?'
 
 @input_error
 def answer_add(name_telephone):
+    """Додаємо телефон до словника"""
     lst_name_telefon = name_telephone.strip().split()
     name = lst_name_telefon[0]
     if dict_telefones.get(name):
@@ -38,6 +41,7 @@ def answer_add(name_telephone):
 
 @input_error
 def answer_change(name_telephone):
+    """Змінюємо телефон в словнику"""
     lst_name_telefon = name_telephone.strip().split()
     name = lst_name_telefon[0]
     telephone = lst_name_telefon[1]
@@ -47,11 +51,13 @@ def answer_change(name_telephone):
 
 @input_error
 def answer_phone(name):
+    """Повертаємо телефон за ім'ям"""
     telephone = dict_telefones[name.strip()]
     return telephone
 
 @input_error
 def answer_showall():
+    """Виводимо всі телефони"""
     return '\n'.join([f'{name} {telephone}' for name, telephone in dict_telefones.items()])
 
 @input_error
@@ -64,6 +70,7 @@ def answer_exit():
 def command_error():
     return 'Ви ввели не вірну команду'
 
+"""Створимо словник команд для пошуку потрібних методів"""
 DICT_COMMANDS = {
                     'hello': answer_hello,
                     'add': answer_add,
@@ -76,6 +83,7 @@ DICT_COMMANDS = {
                 }
 
 def get_answer_function(answer):
+    """Повертаємо потрибний метод для команди користувача"""
     return DICT_COMMANDS.get(answer, command_error)
 
 
